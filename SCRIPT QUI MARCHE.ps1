@@ -1,21 +1,47 @@
+##############################################################################################################################################
+#
+#Auteur     : Marc Majoral
+#Date       : 20.06.22
+#Version    : 1.0
+#Titre      : Script interactif de création d'un utilisateur dans l'Active Directory
+#Description: Ce script permet d'ajouter un utilisateur dans l'Active Directory et de lui créer un dossier sur le serveur.
+#             Les informations prises en compte sont les suivantes : PRENOM
+#                                                                    NOM
+#                                                                    NOM COMPLET
+#                                                                    ADRESSE DE MESSAGERIE
+#                                                                    DEPARTEMENT OU REGION
+#                                                                    UPN
+#                                                                    SAMAccountName
+#                                                                    GROUPE DE SECURITE(s)
+#                                                                    FONCTION
+#                                                                    SERVICE
+#                                                                    SOCIETE
+#
+##############################################################################################################################################
+
+
+
+
+
 Import-Module ActiveDirectory 
 
-#OUVERTURE DU SCRIPT
-Write-Host " Bienvenue. Ce script vous permet d'ajouter un utilisateur dans l'Active Directory et de lui mapper un dossier personnel stocké sur le serveur" -ForegroundColor Green
+#OUVERTURE DU SCRIPT##
+Write-Host " Bienvenue. Ce script vous permet d'ajouter un utilisateur dans l'Active Directory et de lui mapper un dossier personnel stocke sur le serveur" -ForegroundColor Green
 
-########DEFINITION DES VARIABLES########
+#DE 32 > 141 BOUCLE POUR LOOPER LA CREATION D USER##
 do {
 [String]$givenname = Read-Host "Prenom de l'utilisateur a ajouter" 
 [String]$surname = Read-Host "Nom de l'utilisateur a ajouter"   
 
 
-
+#SI LE NOM EST DEJA UTILISE , ALORS ON UTILISERA LES DEUX LETTRES DU PRENOM (EX AU.MARNIER)##
 If (Get-ADUser -f { Surname -eq $surname }) {     
       $sam = $givenname.Substring(0, 2) + "." + $surname.ToLower()
       $upn = $givenname.tolower().substring(0, 2) + "." + $surname.ToLower() + "@" + "axeplane.loc"
       $Mail = $givenname.tolower().substring(0, 2) + "." + $surname.ToLower() + "@" + "axeplane.loc"
       $login = $givenname.Substring(0, 2).ToLower() + "." + $surname.ToLower()
 }
+#SINON ON UTILISERA UNIQUEMENT LA PREMIERE LETTRE DU PRENOM (EX A.MARNIER)##
 else {
       # Premiere lettre du prénom en min + "." + "nom" (ex a.marnier)
       [String]$sam = $givenname.Substring(0, 1) + "." + $surname.ToLower()   
@@ -27,19 +53,19 @@ else {
       [String]$login = $givenname.Substring(0, 1).ToLower() + "." + $surname.ToLower() 
 }
 
-# Defini l'emplacement du dossier personnel"
+#DEFINITION DE L'EMPLACEMENT DU DOSSIER PERSONNEL##
 [String]$fullPath = "\\SRV22PARAP\Users\$login"
-# Poste de l'utilisateur 
+#POSTE DE L UTILISATEUR
 [String]$poste = Read-Host "Renseignez le poste occupe par l'utilisateur" 
-# Place l'utilisateur dans son OU
+#PLACE L UTILISATEUR DANS L OU 
 [String]$service = Read-Host "Renseignez le service de l'utilisateur,celui ci le rattachera a l'OU correspondante"  
-# Defini que le service dans lequel travaille l'utilisateur = OU
+#SERVICE=OU
 [String]$OU = $service 
-# Mot de passe 
+#MOT DE PASSE
 $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'utilisateur" 
      
 
-      # Création de l'user dans l'Active Directory                  
+      ##CREATION DE L UTILISATEUR DANS L ACTIVE DIRECTORY##                 
       try {
             New-ADUser `
                   -Name "$givenname $surname" `
@@ -63,11 +89,11 @@ $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'util
             # Qu'est ce qu'on fait ?
       }
 
-      # Ajoute l'utilisateur a un groupe de sécurité, 
+      ##AJOUTE L UTILISATEUR A UN OU PLUSIEURS GROUPES DE SECURITE 
       do {
-            # Variables pour l'ajout de l'utilisateur aux groupe de sécurité
+            
             [String]$Groupe = Read-Host "Renseignez le groupe de securite. Choisir parmi cette liste : Informatique / Marketing / Direction / Finance / RH / Logistique / Commercial / Stagiaires "
-            [String]$responsegroup = Read-Host -Prompt "Souhaitez vous ajouter l'utilisateur a un autre groupe de sécurite ? [O/N] "
+            [String]$responsegroup = Read-Host -Prompt "Souhaitez vous ajouter l'utilisateur a un autre groupe de securite ? [O/N] "
             
             # Ajout de l'utilisateur a un groupe de sécurité
             Add-ADGroupMember -Identity $Groupe -Members $login               
@@ -75,7 +101,7 @@ $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'util
       # tant que la réponse est "O"
       while ($responsegroup -eq "O") 
       
-      # Mise en place du partage du dossier crée avec l'utilisateur
+      # MISE EN PLACE DU DOSSIER PERSONNEL
       New-Item `
             -path $fullPath `
             -ItemType Directory `
@@ -91,7 +117,7 @@ $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'util
             -AccessRight Full `
             -Force
       
-      # Mise en place des droits NTFS pour que seul l'user puisse avoir acces a son dossier.
+      # MISE EN PLACE DES DROITS NTFS
 
       #Localisation du dossier
       [String]$folderPath = "E:\Users\$Login"  
