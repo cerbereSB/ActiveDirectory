@@ -47,7 +47,7 @@ while ($Continue){
     2{
         $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Informatique,DC=axeplane,DC=loc'
   
-          Get-ADGroup -Filter * -SearchBase 'CN=Informatique,OU=Informatique,DC=axeplane,dc=loc'
+          Get-ADGroup -Filter * -SearchBase 'CN=Grp_Informatique,OU=Informatique,DC=axeplane,dc=loc'
   
           $Rapport = foreach( $Group in $Groups ){
           Get-ADGroupMember -Identity $Group | ForEach-Object {
@@ -66,7 +66,7 @@ while ($Continue){
     3{
       $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Finance,DC=axeplane,DC=loc'
 
-        Get-ADGroup -Filter * -SearchBase 'CN=Finance,OU=Finance,DC=axeplane,dc=loc'
+        Get-ADGroup -Filter * -SearchBase 'CN=Grp_Finance,OU=Finance,DC=axeplane,dc=loc'
 
         $Rapport = foreach( $Group in $Groups ){
         Get-ADGroupMember -Identity $Group | ForEach-Object {
@@ -85,7 +85,7 @@ while ($Continue){
     4{
         $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Commercial,DC=axeplane,DC=loc'
   
-          Get-ADGroup -Filter * -SearchBase 'CN=Commercial,OU=Commercial,DC=axeplane,dc=loc'
+          Get-ADGroup -Filter * -SearchBase 'CN=Grp_Commercial,OU=Commercial,DC=axeplane,dc=loc'
   
           $Rapport = foreach( $Group in $Groups ){
           Get-ADGroupMember -Identity $Group | ForEach-Object {
@@ -104,7 +104,7 @@ while ($Continue){
     5{
             $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Direction,DC=axeplane,DC=loc'
       
-              Get-ADGroup -Filter * -SearchBase 'CN=Direction,OU=Direction,DC=axeplane,dc=loc'
+              Get-ADGroup -Filter * -SearchBase 'CN=Grp_Direction,OU=Direction,DC=axeplane,dc=loc'
       
               $Rapport = foreach( $Group in $Groups ){
               Get-ADGroupMember -Identity $Group | ForEach-Object {
@@ -123,7 +123,7 @@ while ($Continue){
     6{
                 $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Logistique,DC=axeplane,DC=loc'
           
-                  Get-ADGroup -Filter * -SearchBase 'CN=Logistique,OU=Logistique,DC=axeplane,dc=loc'
+                  Get-ADGroup -Filter * -SearchBase 'CN=Grp_Logistique,OU=Logistique,DC=axeplane,dc=loc'
           
                   $Rapport = foreach( $Group in $Groups ){
                   Get-ADGroupMember -Identity $Group | ForEach-Object {
@@ -142,7 +142,7 @@ while ($Continue){
     7{
                     $Groups = Get-ADGroup -Filter * -SearchBase 'OU=RH,DC=axeplane,DC=loc'
               
-                      Get-ADGroup -Filter * -SearchBase 'CN=RH,OU=RH,DC=axeplane,dc=loc'
+                      Get-ADGroup -Filter * -SearchBase 'CN=Grp_RH,OU=RH,DC=axeplane,dc=loc'
               
                       $Rapport = foreach( $Group in $Groups ){
                       Get-ADGroupMember -Identity $Group | ForEach-Object {
@@ -161,7 +161,7 @@ while ($Continue){
     8{
                         $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Marketing,DC=axeplane,DC=loc'
                   
-                          Get-ADGroup -Filter * -SearchBase 'CN=Marketing,OU=Marketing,DC=axeplane,dc=loc'
+                          Get-ADGroup -Filter * -SearchBase 'CN=Grp_Marketing,OU=Marketing,DC=axeplane,dc=loc'
                   
                           $Rapport = foreach( $Group in $Groups ){
                           Get-ADGroupMember -Identity $Group | ForEach-Object {

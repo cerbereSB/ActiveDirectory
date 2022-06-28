@@ -92,7 +92,7 @@ $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'util
       ##AJOUTE L UTILISATEUR A UN OU PLUSIEURS GROUPES DE SECURITE 
       do {
             
-            [String]$Groupe = Read-Host "Renseignez le groupe de securite. Choisir parmi cette liste : Informatique / Marketing / Direction / Finance / RH / Logistique / Commercial / Stagiaires "
+            [String]$Groupe = Read-Host "Renseignez le groupe de securite. Choisir parmi cette liste : Grp_Informatique / Grp_Marketing / Grp_Direction / Grp_Finance / Grp_RH / Grp_Logistique / Grp_Commercial / Grp_Stagiaire "
             [String]$responsegroup = Read-Host -Prompt "Souhaitez vous ajouter l'utilisateur a un autre groupe de securite ? [O/N] "
             
             # Ajout de l'utilisateur a un groupe de sécurité
