@@ -1,3 +1,14 @@
+####################################################################################################################################################################
+#                                                                      RAPPORT USER MEMBRE D UN GROUPE
+#Auteur     : Marc Majoral
+#Date       : 28.06.22
+#Version    : 1.0
+#Titre      : Script interactif de rapport
+#Description: Ce script permet de lister les membres d'un groupe de securite puis d'editer un rapport au format csv . Il est situé par defaut dans C:\RapportsAD
+#             
+#
+####################################################################################################################################################################
+
 Write-Host " BIENVENUE, CE SCRIPT PERMETS DE LISTER LES UTILISATEURS D UN GROUPE DE SECURITE PUIS DE CREER UN RAPPORT DANS C:\RapportsAD" -ForegroundColor Green
 
 #Definitions des Variables pour le nom du rapport
