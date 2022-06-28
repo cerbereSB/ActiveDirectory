@@ -1,4 +1,6 @@
+Write-Host " BIENVENUE, CE SCRIPT PERMETS DE LISTER LES UTILISATEURS D UN GROUPE DE SECURITE PUIS DE CREER UN RAPPORT DANS C:\RapportsAD" -ForegroundColor Green
 
+#Definitions des Variables pour le nom du rapport
 
 $1="Stagiaires"
 $2="Informatique"
@@ -8,6 +10,8 @@ $5="Direction"
 $6="Logistique"
 $7="RH"
 $8="Marketing"
+
+#Mise en place d'un Menu de selection numérique
 
 $Continue = $true
 while ($Continue){
@@ -20,11 +24,14 @@ while ($Continue){
   write-host "6. LOGISTIQUE"
   write-host "7. RH"
   write-host "8. MARKETING"
-  write-host "Q. Quitter"
+  write-host "Q. xxxxx QUITTER LE SCRIPT xxxxx" -ForegroundColor DarkYellow
   write-host "--------------------------------------------------------"
   $choix = read-host A PARTIR DE QUEL GROUPE SOUHAITEZ VOUS LISTER LES UTILISATEURS?:
+
+  #Switch pour , en fonction du choix lister les utilisateur d'un groupe
     switch ($choix){
-       
+     
+    #STAGIAIRES  
     1{
       $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Stagiaires,DC=axeplane,DC=loc'
 
@@ -43,7 +50,8 @@ while ($Continue){
         
         $Rapport| Export-Csv -Path "c:\RapportsAD\$1.csv" -NoTypeInformation
      }
-
+    
+    #INFORMATIQUE 
     2{
         $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Informatique,DC=axeplane,DC=loc'
   
@@ -62,7 +70,7 @@ while ($Continue){
           
           $Rapport| Export-Csv -Path "c:\RapportsAD\$2.csv" -NoTypeInformation
      }  
-
+    #FINANCE
     3{
       $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Finance,DC=axeplane,DC=loc'
 
@@ -81,7 +89,7 @@ while ($Continue){
         
         $Rapport| Export-Csv -Path "c:\RapportsAD\$3.csv" -NoTypeInformation
      }    
-
+    #COMMERCIAL
     4{
         $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Commercial,DC=axeplane,DC=loc'
   
@@ -100,7 +108,7 @@ while ($Continue){
           
           $Rapport| Export-Csv -Path "c:\RapportsAD\$4.csv" -NoTypeInformation
      }  
-
+    #DIRECTION
     5{
             $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Direction,DC=axeplane,DC=loc'
       
@@ -118,8 +126,8 @@ while ($Continue){
                  
               
               $Rapport| Export-Csv -Path "c:\RapportsAD\$5.csv" -NoTypeInformation
-     }  
-            
+     } 
+    #LOGISTIQUE      
     6{
                 $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Logistique,DC=axeplane,DC=loc'
           
@@ -138,7 +146,7 @@ while ($Continue){
                   
                   $Rapport| Export-Csv -Path "c:\RapportsAD\$6.csv" -NoTypeInformation
      }    
-                
+    #RH        
     7{
                     $Groups = Get-ADGroup -Filter * -SearchBase 'OU=RH,DC=axeplane,DC=loc'
               
@@ -157,7 +165,7 @@ while ($Continue){
                       
                       $Rapport| Export-Csv -Path "c:\RapportsAD\$7.csv" -NoTypeInformation
      }        
-                    
+    #MARKETING            
     8{
                         $Groups = Get-ADGroup -Filter * -SearchBase 'OU=Marketing,DC=axeplane,DC=loc'
                   
@@ -176,7 +184,13 @@ while ($Continue){
                           
                           $Rapport| Export-Csv -Path "c:\RapportsAD\$8.csv" -NoTypeInformation
      }
+
+    #Q = Fin de la boucle 
     "Q" {$continue = $false}
+
+    #Si rien n'est tapé, alors "Choix Invalide"
     default {Write-Host "Choix invalide"-ForegroundColor Red}
   }
 }
+
+Write-host "VOS RAPPORTS ONT ETES CORRECTEMENT EDITES DANS C:\RapportsAD" -ForegroundColor Green
