@@ -20,9 +20,6 @@
 ##############################################################################################################################################
 
 
-
-
-
 Import-Module ActiveDirectory 
 
 #OUVERTURE DU SCRIPT##
@@ -30,37 +27,39 @@ Write-Host " Bienvenue. Ce script vous permet d'ajouter un utilisateur dans l'Ac
 
 #DE 32 > 141 BOUCLE POUR LOOPER LA CREATION D USER##
 do {
-[String]$givenname = Read-Host "Prenom de l'utilisateur a ajouter" 
-[String]$surname = Read-Host "Nom de l'utilisateur a ajouter"   
+            $givenname = Read-Host "Prenom de l'utilisateur a ajouter" 
+            $surname = Read-Host "Nom de l'utilisateur a ajouter"   
 
 
 #SI LE NOM EST DEJA UTILISE , ALORS ON UTILISERA LES DEUX LETTRES DU PRENOM (EX AU.MARNIER)##
-If (Get-ADUser -f { Surname -eq $surname }) {     
-      $sam = $givenname.Substring(0, 2) + "." + $surname.ToLower()
-      $upn = $givenname.tolower().substring(0, 2) + "." + $surname.ToLower() + "@" + "axeplane.loc"
-      $Mail = $givenname.tolower().substring(0, 2) + "." + $surname.ToLower() + "@" + "axeplane.loc"
-      $login = $givenname.Substring(0, 2).ToLower() + "." + $surname.ToLower()
-}
+      If (Get-ADUser -f { Surname -eq $surname })
+                                                       {     
+                                                             $sam = $givenname.Substring(0, 2) + "." + $surname.ToLower()
+                                                             $upn = $givenname.tolower().substring(0, 2) + "." + $surname.ToLower() + "@" + "axeplane.loc"
+                                                             $Mail = $givenname.tolower().substring(0, 2) + "." + $surname.ToLower() + "@" + "axeplane.loc"
+                                                             $login = $givenname.Substring(0, 2).ToLower() + "." + $surname.ToLower()
+                                                       }
 #SINON ON UTILISERA UNIQUEMENT LA PREMIERE LETTRE DU PRENOM (EX A.MARNIER)##
-else {
-      # Premiere lettre du prénom en min + "." + "nom" (ex a.marnier)
-      [String]$sam = $givenname.Substring(0, 1) + "." + $surname.ToLower()   
-      # Idem + "@axeplane.loc"
-      [String]$upn = $givenname.tolower().substring(0, 1) + "." + $surname.ToLower() + "@" + "axeplane.loc" 
-      # Idem pour Mail
-      [String]$Mail = $givenname.tolower().substring(0, 1) + "." + $surname.ToLower() + "@" + "axeplane.loc" 
-      # Premiere lettre du prénom en min + "." + "nom" (ex a.marnier) 
-      [String]$login = $givenname.Substring(0, 1).ToLower() + "." + $surname.ToLower() 
-}
+      else 
+                                                      {
+                                                             # Premiere lettre du prénom en min + "." + "nom" (ex a.marnier)
+                                                             $sam = $givenname.Substring(0, 1) + "." + $surname.ToLower()   
+                                                             # Idem + "@axeplane.loc"
+                                                             $upn = $givenname.tolower().substring(0, 1) + "." + $surname.ToLower() + "@" + "axeplane.loc" 
+                                                             # Idem pour Mail
+                                                             $Mail = $givenname.tolower().substring(0, 1) + "." + $surname.ToLower() + "@" + "axeplane.loc" 
+                                                             # Premiere lettre du prénom en min + "." + "nom" (ex a.marnier) 
+                                                             $login = $givenname.Substring(0, 1).ToLower() + "." + $surname.ToLower() 
+                                                      }
 
 #DEFINITION DE L'EMPLACEMENT DU DOSSIER PERSONNEL##
-[String]$fullPath = "\\SRV22PARAP\Users\$login"
+$fullPath = "\\SRV22PARAP\Users\$login"
 #POSTE DE L UTILISATEUR
-[String]$poste = Read-Host "Renseignez le poste occupe par l'utilisateur" 
+$poste = Read-Host "Renseignez le poste occupe par l'utilisateur" 
 #PLACE L UTILISATEUR DANS L OU 
-[String]$service = Read-Host "Renseignez le service de l'utilisateur,celui ci le rattachera a l'OU correspondante"  
+$service = Read-Host "Renseignez le service de l'utilisateur,celui ci le rattachera a l'OU correspondante"  
 #SERVICE=OU
-[String]$OU = $service 
+$OU = $service 
 #MOT DE PASSE
 $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'utilisateur" 
      
@@ -85,19 +84,18 @@ $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'util
                   -HomeDirectory "\\SRV22PARAP\Users\$login" `
                   -EmailAddress $Mail 
       }
-      catch {
-            # Qu'est ce qu'on fait ?
-      }
+      catch {            
+            }
 
       ##AJOUTE L UTILISATEUR A UN OU PLUSIEURS GROUPES DE SECURITE 
       do {
             
-            [String]$Groupe = Read-Host "Renseignez le groupe de securite. Choisir parmi cette liste : Grp_Informatique / Grp_Marketing / Grp_Direction / Grp_Finance / Grp_RH / Grp_Logistique / Grp_Commercial / Grp_Stagiaire "
-            [String]$responsegroup = Read-Host -Prompt "Souhaitez vous ajouter l'utilisateur a un autre groupe de securite ? [O/N] "
+            $Groupe = Read-Host "Renseignez le groupe de securite. Choisir parmi cette liste : Grp_Informatique / Grp_Marketing / Grp_Direction / Grp_Finance / Grp_RH / Grp_Logistique / Grp_Commercial / Grp_Stagiaire "
+            $responsegroup = Read-Host -Prompt "Souhaitez vous ajouter l'utilisateur a un autre groupe de securite ? [O/N] "
             
             # Ajout de l'utilisateur a un groupe de sécurité
             Add-ADGroupMember -Identity $Groupe -Members $login               
-      }     
+          }     
       # tant que la réponse est "O"
       while ($responsegroup -eq "O") 
       
@@ -120,13 +118,13 @@ $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'util
       # MISE EN PLACE DES DROITS NTFS
 
       #Localisation du dossier
-      [String]$folderPath = "E:\Users\$Login"  
+      $folderPath = "E:\Users\$Login"  
       #Nom de l'user
       $user = $login                 
       #Droits (full,readonly etc)
-      [String]$AccesType = "FullControl"      
+      $AccesType = "FullControl"      
       #Authoriser ou Refuser
-      [String]$AlloworDeny = "Allow"          
+      $AlloworDeny = "Allow"          
       #Liste des arguments a prendre en comptes pour creer la regle ACL 
       $argList = $user , $AccesType , $AlloworDeny  
       $acl = Get-Acl $folderPath  
@@ -138,7 +136,7 @@ $Pswd = Read-Host -AsSecureString "Veuillez renseigner le mot de passe de l'util
       $acl | Set-Acl $folderPath
       
       # Prompt d'un message pour créer un autre utilisateur                
-      [String]$response = Read-Host -Prompt  "L'utilisateur a ete correctement ajoute, voulez vous ajouter un autre utilisateur dans l'Active Directory? [O/N]"       
+      $response = Read-Host -Prompt  "L'utilisateur a ete correctement ajoute, voulez vous ajouter un autre utilisateur dans l'Active Directory? [O/N]"    
 } 
 while ($response -eq "O") 
 

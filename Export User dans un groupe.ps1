@@ -1,17 +1,16 @@
 ####################################################################################################################################################################
-#                                                                      RAPPORT USER MEMBRE D UN GROUPE
+#                                                                      RAPPORT USERS MEMBRES D UN GROUPE
 #Auteur     : Marc Majoral
 #Date       : 28.06.22
 #Version    : 1.0
 #Titre      : Script interactif de rapport
 #Description: Ce script permet de lister les membres d'un groupe de securite puis d'editer un rapport au format csv . Il est situé par defaut dans C:\RapportsAD
-#             
 #
 ####################################################################################################################################################################
 
-Write-Host " BIENVENUE, CE SCRIPT PERMETS DE LISTER LES UTILISATEURS D UN GROUPE DE SECURITE PUIS DE CREER UN RAPPORT DANS C:\RapportsAD" -ForegroundColor Green
+Write-Host " BIENVENUE, CE SCRIPT PERMETS DE LISTER LES UTILISATEURS D UN GROUPE DE SECURITE PUIS DE CREER UN RAPPORT DANS C:\RapportsAD\Groupes" -ForegroundColor Green
 
-#Definitions des Variables pour le nom du rapport
+#DEFINITIONS DES VARIABLES
 
 $1="Stagiaires"
 $2="Informatique"
@@ -22,7 +21,7 @@ $6="Logistique"
 $7="RH"
 $8="Marketing"
 
-#Mise en place d'un Menu de selection numérique
+#MISE EN PLACE D UN MENU DE SELECTION
 
 $Continue = $true
 while ($Continue){
@@ -39,7 +38,7 @@ while ($Continue){
   write-host "--------------------------------------------------------"
   $choix = read-host A PARTIR DE QUEL GROUPE SOUHAITEZ VOUS LISTER LES UTILISATEURS?:
 
-  #Switch pour , en fonction du choix lister les utilisateur d'un groupe
+  #SWITCH POUR , EN FONCTION , LISTER LES UTILISATEURS D UN GROUPE
     switch ($choix){
      
     #STAGIAIRES  
@@ -59,7 +58,7 @@ while ($Continue){
                                                                       }
            
         
-        $Rapport| Export-Csv -Path "c:\RapportsAD\$1.csv" -NoTypeInformation
+        $Rapport| Export-Csv -Path "c:\RapportsAD\Groupes\$1.csv" -NoTypeInformation
      }
     
     #INFORMATIQUE 
@@ -79,7 +78,7 @@ while ($Continue){
                                                                         }
              
           
-          $Rapport| Export-Csv -Path "c:\RapportsAD\$2.csv" -NoTypeInformation
+          $Rapport| Export-Csv -Path "c:\RapportsAD\Groupes\$2.csv" -NoTypeInformation
      }  
     #FINANCE
     3{
@@ -98,7 +97,7 @@ while ($Continue){
                                                                       }
            
         
-        $Rapport| Export-Csv -Path "c:\RapportsAD\$3.csv" -NoTypeInformation
+        $Rapport| Export-Csv -Path "c:\RapportsAD\Groupes\$3.csv" -NoTypeInformation
      }    
     #COMMERCIAL
     4{
@@ -117,7 +116,7 @@ while ($Continue){
                                                                         }
              
           
-          $Rapport| Export-Csv -Path "c:\RapportsAD\$4.csv" -NoTypeInformation
+          $Rapport| Export-Csv -Path "c:\RapportsAD\Groupes\$4.csv" -NoTypeInformation
      }  
     #DIRECTION
     5{
@@ -136,7 +135,7 @@ while ($Continue){
                                                                             }
                  
               
-              $Rapport| Export-Csv -Path "c:\RapportsAD\$5.csv" -NoTypeInformation
+              $Rapport| Export-Csv -Path "c:\RapportsAD\Groupes\$5.csv" -NoTypeInformation
      } 
     #LOGISTIQUE      
     6{
@@ -155,7 +154,7 @@ while ($Continue){
                                                                                 }
                      
                   
-                  $Rapport| Export-Csv -Path "c:\RapportsAD\$6.csv" -NoTypeInformation
+                  $Rapport| Export-Csv -Path "c:\RapportsAD\Groupes\$6.csv" -NoTypeInformation
      }    
     #RH        
     7{
@@ -174,7 +173,7 @@ while ($Continue){
                                                                                     }
                          
                       
-                      $Rapport| Export-Csv -Path "c:\RapportsAD\$7.csv" -NoTypeInformation
+                      $Rapport| Export-Csv -Path "c:\RapportsAD\Groupes\$7.csv" -NoTypeInformation
      }        
     #MARKETING            
     8{
@@ -193,15 +192,16 @@ while ($Continue){
                                                                                         }
                              
                           
-                          $Rapport| Export-Csv -Path "c:\RapportsAD\$8.csv" -NoTypeInformation
+                          $Rapport| Export-Csv -Path "c:\RapportsAD\Groupes\$8.csv" -NoTypeInformation
      }
 
-    #Q = Fin de la boucle 
+    #Q = FIN DE LA BOUCLE
     "Q" {$continue = $false}
 
-    #Si rien n'est tapé, alors "Choix Invalide"
+    #SI RIEN N EST TAPE ALORS "CHOIX INVALIDE"
     default {Write-Host "Choix invalide"-ForegroundColor Red}
   }
 }
 
-Write-host "VOS RAPPORTS ONT ETES CORRECTEMENT EDITES DANS C:\RapportsAD" -ForegroundColor Green
+Write-host "VOS RAPPORTS ONT ETES CORRECTEMENT EDITES DANS C:\RapportsAD\Groupes" -ForegroundColor Green
+Read-Host -Prompt "Appuyez sur une touche pour fermer le script"
