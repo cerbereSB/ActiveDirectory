@@ -2,24 +2,49 @@
 
 $Computers = Get-ADComputer -Filter 'Name -like "PARAP*"' | Select-Object -ExpandProperty Name
 $Date = Get-Date -Format "MM-dd-yyyy"
-$Ping = Test-Connection
+$Path = "E:\Logs\Sauvegarde du $Date.txt"
 
 ForEach ($Computer in $Computers)
 {
-       Robocopy.exe "\\$Computer\c$\Users\" "E:\Sauvegardes\$Computer\$computer"  `
-    /xf "NTUSER.DAT" `
-        "ntuser.dat.LOG1" `
-        "ntuser.dat.LOG2" `
-    /xd 'AppData' `
-        'Default' `
-        'Default User' `
-        'All Users' `
-        'Public' `
-        'Administrateur' `
-        'SRV22PARAP' `
-        'SendTo' `
-        'Local Settings' /e /b /mir /mt /r:0 /w:0 /log:e:\Log\$Date.txt
+    
+    if (Test-Connection $Computer -Count 2 -ErrorAction SilentlyContinue)
+    {
+        Add-Content $Path "$Computer EST EN LIGNE" 
+        Add-Content $Path "DEBUT DE LA COPIE ..." 
+        Robocopy.exe "\\$Computer\c$\Users\" "E:\Sauvegardes\$Computer\$computer"  `
+        /xf "NTUSER.DAT*" `
+            "ntuser.dat.LOG1" `
+            "ntuser.dat.LOG2" `
+        /xd 'AppData' `
+            'Default' `
+            'Default User' `
+            'All Users' `
+            'Public' `
+            'Administrateur' `
+            'SRV22PARAP' `
+            'SendTo' `
+            'Local Settings' /e /b /mir /mt /r:0 /w:0 /njh /njs /log+:$Path
+            Add-Content $Path "FIN DE LA COPIE DE $computer"
+
+            Write-Host "COPIE EFFECTUEE
+            
+            
+            " -ForegroundColor Green
+    }
+    else
+    {
+        Write-Host "MACHINE HORS LIGNE" -ForegroundColor Red
+        Add-Content $Path "$Computer EST HORS LIGNE" 
+        Add-Content $Path "LA COPIE EST IMPOSSIBLE
+        
+        
+        " 
+        
+        
+    }
+        
 }
+
 
 
 
